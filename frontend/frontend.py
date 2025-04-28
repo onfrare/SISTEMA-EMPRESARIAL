@@ -96,7 +96,7 @@ class Tela:
         self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
     def paginaInicial(self):
-        self.configurarJanela("TELLPACK", 1000, 600)
+        self.configurarJanela("Nome da Empresa", 1000, 600)
         self.page.floating_action_button = None
         
         self.page.add(ft.Row(
