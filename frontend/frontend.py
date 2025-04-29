@@ -1,4 +1,5 @@
 import flet as ft
+import backend.backend as be
 
 class Tela:
     
@@ -10,85 +11,74 @@ class Tela:
         self.objetos()
 
     def objetos(self):
-        
-        self.btnCadastroCliente = ft.ElevatedButton(
-            text="Cadastrar Cliente",
-            on_click =lambda e : self.TelacadastroCliente(), 
-            bgcolor = self.corFundo,
-            color = self.corTexto,
-            icon = ft.Icons.PERSON_ADD_ALT_ROUNDED,
-            width = 200)
-        
-        self.btnCadastroFornecedor = ft.ElevatedButton(
-            text="Cadastrar Fornecedor",
-            on_click =lambda e : self.TelacadastroFornecedor(), 
-            bgcolor = self.corFundo,
-            color = self.corTexto,
-            icon = ft.Icons.PERSON_ADD_ALT_ROUNDED,
-            width = 200)
-        
-        self.btnCadastroProduto = ft.ElevatedButton(
-            text="Cadastrar Produto",
-            on_click =lambda e : self.TelacadastroProduto(),
-            bgcolor = self.corFundo,
-            color = self.corTexto,
-            icon = ft.Icons.ADD_SHOPPING_CART,
-            width = 200)
-        
-        self.btnGerarPedido = ft.ElevatedButton(
-            text="Pedido",
-            on_click =lambda e : self.TelagerarPedido(), 
-            bgcolor = self.corFundo,
-            color = self.corTexto,
-            icon = ft.Icons.ASSIGNMENT_ADD,
-            width = 200)
-    
-        self.btnGerarOrcamento = ft.ElevatedButton(
-            text="Orçamento",
-            on_click =lambda e : self.TelagerarOrcamento(), 
-            bgcolor = self.corFundo,
-            color = self.corTexto,
-            icon = ft.Icons.ASSIGNMENT_ADD,
-            width = 200)
-        
-        self.btnGerarAmostra = ft.ElevatedButton(
-            text="Amostra",
-            on_click =lambda e : self.TelagerarAmostra(), 
-            bgcolor = self.corFundo,
-            color = self.corTexto,
-            icon = ft.Icons.ASSIGNMENT_ADD,
-            width = 200)
-        
-        self.colunaEsquerdaTelaPrincipal = ft.Column(
-            controls=[self.btnCadastroCliente, self.btnCadastroFornecedor, self.btnCadastroProduto],
-            alignment=ft.MainAxisAlignment.CENTER,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=20)
-        
-        self.colunaDireitaTelaPrincipal = ft.Column(
-            controls=[self.btnGerarPedido, self.btnGerarOrcamento, self.btnGerarAmostra],
-            alignment=ft.MainAxisAlignment.CENTER,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=20)
+        self.btnCadastroCliente = self.criarBotao("Cadastrar Cliente", ft.Icons.PERSON_ADD_ALT_ROUNDED, self.TelacadastroCliente)
+        self.btnCadastroFornecedor = self.criarBotao("Cadastrar Fornecedor", ft.Icons.PERSON_ADD_ALT_ROUNDED, self.TelacadastroFornecedor)
+        self.btnCadastroProduto = self.criarBotao("Cadastrar Produto", ft.Icons.ADD_SHOPPING_CART, self.TelacadastroProduto)
+        self.btnGerarPedido = self.criarBotao("Pedido", ft.Icons.ASSIGNMENT_ADD, self.TelagerarPedido)
+        self.btnGerarOrcamento = self.criarBotao("Orçamento", ft.Icons.ASSIGNMENT_ADD, self.TelagerarOrcamento)
+        self.btnGerarAmostra = self.criarBotao("Amostra", ft.Icons.ASSIGNMENT_ADD, self.TelagerarAmostra)
+        self.btnTelaInicial = self.criarBotao("Voltar para tela inicial", ft.Icons.HOME, self.paginaInicial)
 
-        self.btnTelaInicial = ft.ElevatedButton(
-            text="Voltar para tela inicial",
-            on_click =lambda e : self.paginaInicial(), 
-            bgcolor = self.corFundo,
-            color = self.corTexto,
-            icon = ft.Icons.HOME,
-            width = 200)
+        self.ctxCadastroNome = ft.TextField(label="Nome", width=650,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroFantasia = ft.TextField(label="Nome Fantasia", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroCnpj = ft.TextField(label="CNPJ", width=300, keyboard_type=ft.KeyboardType.NUMBER, on_change=lambda e: be.validarCnpj(e, self.ctxCadastroNome, self.ctxCadastroFantasia, self.ctxCadastroCep, self.ctxCadastroRua, self.ctxCadastroNumero, self.ctxCadastroBairro, self.ctxCadastroCidade, self.ctxCadastroUf))
+        self.ctxCadastroIe = ft.TextField(label="IE", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
         
+        self.ctxCadastroCep= ft.TextField(label="CEP", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroRua= ft.TextField(label="Rua", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroNumero= ft.TextField(label="Número", width=300,on_change=be.somenteNumero)
+        self.ctxCadastroBairro= ft.TextField(label="Bairro", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroCidade= ft.TextField(label="Cidade", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroUf= ft.TextField(label="UF", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+    
+        self.ctxCadastroTelefone= ft.TextField(label="Telefone", width=300,on_change=be.formatarTelefone)
+        self.ctxCadastroEmail = ft.TextField(label="Email", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroContato = ft.TextField(label="Contato", width=300, capitalization=ft.TextCapitalization.CHARACTERS)
         
+        self.colunaEsquerdaTelaPrincipal = ft.Column(controls=
+            [self.btnCadastroCliente, self.btnCadastroFornecedor, self.btnCadastroProduto],
+                alignment=ft.MainAxisAlignment.CENTER,horizontal_alignment=ft.CrossAxisAlignment.CENTER,spacing=20)
+
+        self.colunaDireitaTelaPrincipal = ft.Column(controls=
+            [self.btnGerarPedido, self.btnGerarOrcamento, self.btnGerarAmostra],
+                alignment=ft.MainAxisAlignment.CENTER,horizontal_alignment=ft.CrossAxisAlignment.CENTER,spacing=20)
+
+        self.colunaEsquerdaCadastroCliente = ft.Column(controls=[
+            self.ctxCadastroCnpj,self.ctxCadastroCep,self.ctxCadastroNumero,
+            self.ctxCadastroBairro,self.ctxCadastroUf,self.ctxCadastroTelefone],
+            alignment=ft.MainAxisAlignment.CENTER,horizontal_alignment=ft.CrossAxisAlignment.CENTER,spacing=20)
         
-    def btn(self, botao=None, local=ft.FloatingActionButtonLocation.START_TOP):
+        self.colunaDireitaCadastroCliente = ft.Column(controls=[
+            self.ctxCadastroFantasia,self.ctxCadastroIe,self.ctxCadastroRua,self.ctxCadastroCidade,
+            self.ctxCadastroEmail,self.ctxCadastroContato],
+            alignment=ft.MainAxisAlignment.CENTER,horizontal_alignment=ft.CrossAxisAlignment.CENTER,spacing=20)
+            
+        self.containerCadastroCliente = ft.Container(content=ft.Column(controls=[ft.Row(controls=[self.ctxCadastroNome], alignment=ft.MainAxisAlignment.CENTER), ft.Column(controls=[ft.Row(controls=[self.colunaEsquerdaCadastroCliente, self.colunaDireitaCadastroCliente], alignment=ft.MainAxisAlignment.CENTER, spacing=50)])]), padding=20)
+
+   
+    def criarBotao(self, texto, icone=None, acao=None):
+        return ft.ElevatedButton(
+            text=texto,
+            on_click=lambda e: acao(),
+            bgcolor=self.corFundo,
+            color=self.corTexto,
+            icon=icone,
+            icon_color=self.corTexto,
+            style=ft.ButtonStyle(text_style=ft.TextStyle(weight=ft.FontWeight.BOLD)),
+            width=200
+        )
+
+    def configurarPosiçãoBtn(self, botao=None, local=ft.FloatingActionButtonLocation.START_TOP):
         if botao is None:
             botao = self.btnTelaInicial
-        self.page.floating_action_button = botao
+
         self.page.floating_action_button_location = local
         
-
-    
+        if str(local).endswith("TOP"): 
+            self.page.floating_action_button = ft.Container(content=botao,margin=ft.margin.only(top=20))
+        else:
+            self.page.floating_action_button = ft.Container(content=botao,margin=ft.margin.only(bottom =20))
+        
     def configurarJanela(self, titulo: str, largura: int, altura: int, redimensionavel: bool = False):
         self.page.clean()
         self.page.title = titulo
@@ -103,8 +93,7 @@ class Tela:
 
     def paginaInicial(self):
         self.configurarJanela("Nome da Empresa", 1000, 600)
-        self.page.floating_action_button = None
-        
+        self.page.floating_action_button = None 
         self.page.add(ft.Row(
                 controls=[self.colunaEsquerdaTelaPrincipal ,self.colunaDireitaTelaPrincipal],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -112,5 +101,31 @@ class Tela:
 
     def TelacadastroCliente(self):
         self.configurarJanela("Cadastro de cliente", 1000, 600)
-        self.btn()
-        self.page.add(ft.Text("Tela de cadastro de cliente",bgcolor=self.corFundo ,color = self.corTexto))
+        self.configurarPosiçãoBtn()
+        self.page.add(self.containerCadastroCliente)
+        
+
+    def TelacadastroFornecedor(self):
+        self.configurarJanela("Cadastro de fornecedor", 1000, 600)
+        self.configurarPosiçãoBtn()
+        self.page.add(ft.Text("Tela de cadastro de fornecedor",color=self.corFundo))
+
+    def TelacadastroProduto(self):
+        self.configurarJanela("Cadastro de produto", 1000, 600)
+        self.configurarPosiçãoBtn()
+        self.page.add(ft.Text("Tela de cadastro de produto",color=self.corFundo))
+
+    def TelagerarPedido(self):
+        self.configurarJanela("Gerar pedido", 1000, 600)
+        self.configurarPosiçãoBtn()
+        self.page.add(ft.Text("Tela de gerar pedido",color=self.corFundo))
+
+    def TelagerarOrcamento(self):
+        self.configurarJanela("Gerar orçamento", 1000, 600)
+        self.configurarPosiçãoBtn()
+        self.page.add(ft.Text("Tela de gerar orçamento",color=self.corFundo))
+
+    def TelagerarAmostra(self):
+        self.configurarJanela("Gerar amostra", 1000, 600)
+        self.configurarPosiçãoBtn()
+        self.page.add(ft.Text("Tela de gerar amostra",color=self.corFundo))
