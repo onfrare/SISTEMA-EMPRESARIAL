@@ -5,4 +5,4 @@ def main(page: ft.Page):
     app = Tela(page)
     app.paginaInicial()
     
-ft.app(target=main) #view=ft.WEB_BROWSER
+ft.app(target=main)

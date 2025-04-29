@@ -71,8 +71,6 @@ class Tela:
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             spacing=20)
 
-
-
         self.btnTelaInicial = ft.ElevatedButton(
             text="Voltar para tela inicial",
             on_click =lambda e : self.paginaInicial(), 
@@ -80,6 +78,14 @@ class Tela:
             color = self.corTexto,
             icon = ft.Icons.HOME,
             width = 200)
+        
+        
+        
+    def btn(self, botao=None, local=ft.FloatingActionButtonLocation.START_TOP):
+        if botao is None:
+            botao = self.btnTelaInicial
+        self.page.floating_action_button = botao
+        self.page.floating_action_button_location = local
         
 
     
@@ -106,7 +112,5 @@ class Tela:
 
     def TelacadastroCliente(self):
         self.configurarJanela("Cadastro de cliente", 1000, 600)
-        self.page.floating_action_button = self.btnTelaInicial
-        self.page.floating_action_button_location= ft.FloatingActionButtonLocation.START_TOP
-
+        self.btn()
         self.page.add(ft.Text("Tela de cadastro de cliente",bgcolor=self.corFundo ,color = self.corTexto))
