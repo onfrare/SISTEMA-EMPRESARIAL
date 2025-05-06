@@ -1,5 +1,17 @@
 import flet as ft
 import requests
+import socket
+import re
+
+def obterIP():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80)) 
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return None
 
 def somenteNumero(evento: ft.ControlEvent):
     evento.control.value = ''.join(filter(str.isdigit, evento.control.value))
@@ -58,5 +70,18 @@ def validarCnpj(evento, campoNome, campoFantasia, campoCep, campoRua, campoNumer
     except:
         evento.control.error_text = "Erro ao consultar o CNPJ"
 
+    evento.page.update()
+
+def validarEmail(evento: ft.ControlEvent):
+    email = evento.control.value
+    if email == "":
+        evento.control.error_text = None
+        evento.page.update()
+        return
+    padraoEmail = r'^[^@]+@[^@]+\.[^@]+$'
+    if re.match(padraoEmail, email):
+        evento.control.error_text = None
+    else:
+        evento.control.error_text = "E-mail inválido"
     evento.page.update()
 

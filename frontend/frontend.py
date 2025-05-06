@@ -32,9 +32,11 @@ class Tela:
         self.ctxCadastroUf= ft.TextField(label="UF", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
     
         self.ctxCadastroTelefone= ft.TextField(label="Telefone", width=300,on_change=be.formatarTelefone)
-        self.ctxCadastroEmail = ft.TextField(label="Email", width=300,capitalization=ft.TextCapitalization.CHARACTERS)
+        self.ctxCadastroEmail = ft.TextField(label="Email", width=300,on_change=be.validarEmail,capitalization=ft.TextCapitalization.CHARACTERS)
         self.ctxCadastroContato = ft.TextField(label="Contato", width=300, capitalization=ft.TextCapitalization.CHARACTERS)
         
+        self.bntConfirmarCadastroCliente = ft.ElevatedButton(text="Cadastrar", width=650)
+
         self.colunaEsquerdaTelaPrincipal = ft.Column(controls=
             [self.btnCadastroCliente, self.btnCadastroFornecedor, self.btnCadastroProduto],
                 alignment=ft.MainAxisAlignment.CENTER,horizontal_alignment=ft.CrossAxisAlignment.CENTER,spacing=20)
@@ -53,7 +55,12 @@ class Tela:
             self.ctxCadastroEmail,self.ctxCadastroContato],
             alignment=ft.MainAxisAlignment.CENTER,horizontal_alignment=ft.CrossAxisAlignment.CENTER,spacing=20)
             
-        self.containerCadastroCliente = ft.Container(content=ft.Column(controls=[ft.Row(controls=[self.ctxCadastroNome], alignment=ft.MainAxisAlignment.CENTER), ft.Column(controls=[ft.Row(controls=[self.colunaEsquerdaCadastroCliente, self.colunaDireitaCadastroCliente], alignment=ft.MainAxisAlignment.CENTER, spacing=50)])]), padding=20)
+        self.containerCadastroCliente = ft.Container(content=
+        ft.Column(controls=[ft.Row(controls=[self.ctxCadastroNome], 
+        alignment=ft.MainAxisAlignment.CENTER), ft.Column(controls=
+        [ft.Row(controls=[self.colunaEsquerdaCadastroCliente, self.colunaDireitaCadastroCliente], 
+        alignment=ft.MainAxisAlignment.CENTER, spacing=50)]),ft.Row(controls=[self.bntConfirmarCadastroCliente], 
+        alignment=ft.MainAxisAlignment.CENTER)]), padding=20)
 
    
     def criarBotao(self, texto, icone=None, acao=None):
